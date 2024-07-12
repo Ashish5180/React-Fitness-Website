@@ -51,7 +51,7 @@ const Nutrition = () => {
   return (
     <div className="p-4 bg-[#0B1215] text-white "> {/* Main container */}
       {/* Form to input parameters */}
-      <h1 className='text-3xl font-bold text-center m-5'>Get Your All Nutrition Info</h1> {/* Title */}
+      <h1 className='text-3xl font-bold text-center m-5'>Get Your All Nutrition Info According to your Parameters</h1> {/* Title */}
       <div className='md:flex justify-center content-center'> {/* Form container */}
         <form onSubmit={handleSubmit} className="max-w-sm mx-auto bg-gray-900 shadow-md rounded px-8 pt-6 pb-8 mb-4"> {/* Form */}
           <div className="mb-4"> {/* Input fields */}

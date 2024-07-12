@@ -1,84 +1,94 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useUserAuth } from "../Context/UserAuthContext";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useUserAuth } from '../Context/UserAuthContext';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false); // State for success message
+const LoginComponent = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const { logIn } = useUserAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     try {
       await logIn(email, password);
-      setShowSuccess(true); // Show success message on successful login
-      setTimeout(() => {
-        navigate("/home");
-      }, 4000); // Redirect to home after 4 seconds
+      navigate('/'); // Redirect to home after successful login
     } catch (err) {
       setError(err.message);
     }
   };
 
-  // Reset success message on component unmount or email/password change
-  useEffect(() => {
-    return () => {
-      setShowSuccess(false);
-    };
-  }, [email, password]);
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Firebase Auth Login</h2>
-          <h2 className="mt-6 text-center text-xl font-extrabold text-red-500">Login to Access service</h2>
-          {error && <div className="text-red-600 text-center mt-3">{error}</div>}
-          {showSuccess && (
-            <div className="text-green-600 text-center mt-3 text-2xl font-bold">Successfully logged in. Redirecting...</div>
-          )}
+    <div className="flex flex-wrap">
+      <div className="flex w-full flex-col md:w-1/2">
+        <div className="flex justify-center pt-12 md:-mb-24 md:justify-start md:pl-12">
+          <Link to="/" className="border-b-gray-700 border-b-4 pb-2 text-2xl font-bold text-gray-900">Damasus.</Link>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <input
-                type="email"
-                placeholder="Email address"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                onChange={(e) => setEmail(e.target.value)}
-              />
+        <div className="lg:w-[28rem] mx-auto my-auto flex flex-col justify-center pt-8 md:justify-start md:px-6 md:pt-0">
+          <p className="text-left text-3xl font-bold">Login</p>
+          <p className="mt-2 text-left text-gray-500">Login to Access Service</p>
+          {error && <div className="text-red-600 mt-4">{error}</div>}
+          <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit}>
+            <div className="flex flex-col pt-4">
+              <div className="focus-within:border-b-gray-500 relative flex overflow-hidden border-b-2 transition">
+                <input
+                  type="email"
+                  id="login-email"
+                  className="w-full flex-1 appearance-none border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <div className="mb-12 flex flex-col pt-4">
+              <div className="focus-within:border-b-gray-500 relative flex overflow-hidden border-b-2 transition">
+                <input
+                  type="password"
+                  id="login-password"
+                  className="w-full flex-1 appearance-none border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
-
-          <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full rounded-lg bg-gray-900 px-4 py-2 text-center text-base font-semibold text-white shadow-md ring-gray-500 ring-offset-2 transition focus:ring-2"
             >
-              Log In
+              Log in
             </button>
+          </form>
+          <div className="py-12 text-center">
+            <p className="whitespace-nowrap text-gray-600">
+              Don't have an account?{' '}
+              <Link to="/signup" className="underline-offset-4 font-semibold text-gray-900 underline">
+                Sign up for free.
+              </Link>
+            </p>
           </div>
-        </form>
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Don't have an account? <Link to="/signup" className="font-medium text-blue-500 hover:text-blue-600">Sign up</Link>
-          </p>
         </div>
+      </div>
+      <div className="pointer-events-none relative hidden h-screen select-none bg-black md:block md:w-1/2">
+        <div className="absolute bottom-0 z-10 px-8 text-white opacity-100">
+          <p className="mb-8 text-3xl font-semibold leading-10">
+          When I feel tired, I just think about how great I will feel once I finally reach my goal
+          </p>
+          <p className="mb-4 text-3xl font-semibold">John Elmond</p>
+          <p className="">Founder, Emogue</p>
+          <p className="mb-7 text-sm opacity-70">Web Design Agency</p>
+        </div>
+        <img
+          className="-z-1 absolute top-0 h-full w-full object-cover opacity-90"
+          src="https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg?cs=srgb&dl=pexels-victorfreitas-841130.jpg&fm=jpg"
+          alt="Background"
+        />
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginComponent;
