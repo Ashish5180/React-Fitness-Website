@@ -37,7 +37,7 @@ function ContactUs() {
   };
 
   return (
-    <div className="font-sans text-base text-gray-900 sm:px-10 h-screen">
+    <div className="font-sans text-base text-gray-900 sm:px-10 h-full">
       <div className="text-base text-gray-900">
         <div className="mx-auto w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl">
           <div className="mx-2 pt-12 text-center md:mx-auto md:w-2/3 md:pb-12">
